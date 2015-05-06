@@ -359,6 +359,7 @@ func (c *Client) init(o *Options) error {
 
 			fmt.Fprintf(c.conn, "<response xmlns='%s'>%s</response>\n", nsSASL, base64.StdEncoding.EncodeToString([]byte(message)))
 
+			/*
 			var rspauth saslRspAuth
 			if err = c.p.DecodeElement(&rspauth, nil); err != nil {
 				return errors.New("unmarshal <challenge>: " + err.Error())
@@ -368,6 +369,7 @@ func (c *Client) init(o *Options) error {
 				return err
 			}
 			fmt.Fprintf(c.conn, "<response xmlns='%s'/>\n", nsSASL)
+			*/
 			break
 		}
 	}
