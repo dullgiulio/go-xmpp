@@ -19,6 +19,7 @@ var statusMessage = flag.String("status-msg", "I for one welcome our new codebot
 var notls = flag.Bool("notls", false, "No TLS")
 var debug = flag.Bool("debug", false, "debug output")
 var session = flag.Bool("session", false, "use server session")
+var verify = flag.Bool("noverify", false, "do not verify TLS certificate")
 
 func serverName(host string) string {
 	return strings.Split(host, ":")[0]
@@ -35,11 +36,9 @@ func main() {
 		flag.Usage()
 	}
 
-	if !*notls {
-		xmpp.DefaultConfig = tls.Config{
-			ServerName:         serverName(*server),
-			InsecureSkipVerify: false,
-		}
+	xmpp.DefaultConfig = tls.Config{
+		ServerName:         serverName(*server),
+		InsecureSkipVerify: *verify,
 	}
 
 	var talk *xmpp.Client

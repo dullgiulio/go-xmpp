@@ -171,7 +171,11 @@ func (o Options) NewClient() (*Client, error) {
 		if o.TLSConfig != nil {
 			tlsconn = tls.Client(c, o.TLSConfig)
 		} else {
-			DefaultConfig.ServerName = strings.Split(o.User, "@")[1]
+			usrServ := strings.Split(o.User, "@")
+			if len(usrServ) != 2 {
+				return nil, errors.New("xmpp: invalid username (want user@domain): " + o.User)
+			}
+			DefaultConfig.ServerName = usrServ[1]
 			tlsconn = tls.Client(c, &DefaultConfig)
 		}
 		if err = tlsconn.Handshake(); err != nil {
